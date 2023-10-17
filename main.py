@@ -77,7 +77,7 @@ class Ballon(pygame.sprite.Sprite):
         red_ballon_sprite_4 = pygame.image.load('graphics/ballon/red_ballon_3.png')
         self.red_ballon_sprites = [red_ballon_sprite_1, red_ballon_sprite_2, red_ballon_sprite_3, red_ballon_sprite_4]
         self.red_ballon_sprite_index = 0
-        self.position = [randint(200, 850), (screen_height / 2) ]
+        self.position = [randint(200, 850), screen_height + 50]
 
         self.image = self.red_ballon_sprites[self.red_ballon_sprite_index]
         self.rect = self.image.get_rect(center = (self.position[0], self.position[1]))
@@ -95,8 +95,12 @@ class Ballon(pygame.sprite.Sprite):
         self.ballon_animation()
 
 def bullet_collision():
-    pygame.sprite.groupcollide(bullet_group, ballon_group, False, False)
+    pygame.sprite.groupcollide(bullet_group, ballon_group, False, True)
 
+def ballon_setup(ballons):
+    for ballon in range(ballons):
+        ballon = Ballon()
+        ballon_group.add(ballon)
 
 pygame.init()   
 
@@ -118,9 +122,10 @@ bullet_group = pygame.sprite.Group()
 
 ballon = Ballon()
 ballon_group = pygame.sprite.Group()
-ballon_group.add(ballon)
 
 score = 0
+
+ballon_setup(10)
 
 while True:
     for event in pygame.event.get():
